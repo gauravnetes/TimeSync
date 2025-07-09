@@ -22,6 +22,9 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Learn More
 
+npx shadcn@latest add avatar card carousel checkbox input drawer label tabs text
+area
+
 To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.

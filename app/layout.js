@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
+import Header from "@/components/header";
 import { ClerkProvider } from "@clerk/nextjs";
-
+import CreateEventDrawer from "@/components/create-event"
 export const metadata = {
   title: "TimeSync",
   description: "Scheduling Application",
@@ -26,6 +26,7 @@ export default function RootLayout({ children }) {
               <p>Developed by @gauravnetes</p>
             </div>
           </footer>
+          <CreateEventDrawer />
         </body>
       </html>
     </ClerkProvider>

@@ -4,12 +4,14 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
 import { PenBox } from 'lucide-react'
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
+import { RedirectToSignIn, SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 import UserMenu from './user-menu'
+import { checkUser } from '@/lib/checkUser'
 
-const Header = () => {
+const Header = async () => {
+    await checkUser(); 
     return (
-        <nav className='mx-auto py-0 px-4 flex justify-between items-center shadow-md border-b-1'>
+        <nav className='mx-auto py-0 px-4 flex justify-between items-center shadow-md border-b-1 bg-white'>
             <Link href="/" className='flex items-center'>
                 <Image
                     src="/logo.png"
@@ -31,7 +33,7 @@ const Header = () => {
                 </Link>
 
                 <SignedOut>
-                    <SignInButton forceRedirectUrl='/dashboard'>
+                    <SignInButton forceRedirectUrl="/dashboard">
                         <Button variant="outline">
                             Log in
                         </Button>

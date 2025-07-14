@@ -112,6 +112,12 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@layer utilities {
+  .gradient-title {
+    @apply font-extrabold bg-gradient-to-br from-blue-600 to-blue-400 bg-clip-text tracking-tighter text-transparent pb-4 pr-2
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

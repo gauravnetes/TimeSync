@@ -62,21 +62,49 @@ export async function updateAvailability(data) {
     }
 
     const availabilityData = Object.entries(data) // each entries is converted into a seperate array
-
-    availabilityData.flatMap(([day, { isAvailable, startTime, endTime }]) => {
+    console.log(availabilityData)
+    const flattenedAvailabilityData = availabilityData.flatMap(([day, { isAvailable, startTime, endTime }]) => {
         if (isAvailable) {
-            const baseDate = new Date().toString().split("T")[0]
-            console.log(baseDate)
+            const baseDate = new Date().toISOString().split("T")[0]
+            // console.log(baseDate)
             return [
                 {
                     day: day.toUpperCase(), 
                     startTime: new Date(`${baseDate}T${startTime}:00Z`), 
-                    endTime: new Date(`${baseDate}T${endTime}:00Z`)
+                    endTime: new Date(`${baseDate}T${endTime}:00Z`),
                 }
             ]
         }
 
         return []; 
     })
-    // console.log(availabilityData)
+
+    // updating user availability along with timeGap in the DB
+
+    // if availability already present in db, update it. 
+    if(user.availability) {
+        await db.availability.update({
+            where: { id: user.availability.id }, 
+            data: {
+                timeGap: data.timeGap, 
+                days: {
+                    deleteMany: {}, 
+                    create: flattenedAvailabilityData, 
+                }, 
+            }, 
+        }); 
+    // if availability not present in db -> create availability 
+    } else {
+        await db.availability.create({
+            data: {
+                userId: user.id,
+                timeGap: data.timeGap, 
+                days: {
+                    create: flattenedAvailabilityData, 
+                }, 
+            }, 
+        }); 
+    }
+    // console.log(flattenedAvailabilityData)
+    return { success: true }
 }

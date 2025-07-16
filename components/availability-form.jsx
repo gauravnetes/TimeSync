@@ -144,8 +144,9 @@ const AvailabilityForm = ({ initialData }) => {
                 )}
             </div>
 
-            <Button type="submit" className="mt-6 cursor-pointer">
-                Update Availability
+            {error && <div className='text-red-500 text-sm'>{error.message}</div>}
+            <Button type="submit" className="mt-6 cursor-pointer"  disabled={loading}>
+                {loading ? "Updating..." : "Update Availability"}
             </Button>
         </form>
     )

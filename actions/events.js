@@ -85,6 +85,7 @@ export async function deleteEvent(eventId) {
 }
 
 export async function getEventDetails(username, eventId) {
+  console.log(username, eventId)
   const event = await db.event.findFirst({
     where: {
       id: eventId,
@@ -149,7 +150,7 @@ export async function getEventAvailability(eventId) {
 
   const availableDates = [];
 
-  for (let date = startDate; date <= endDate; date = addDays(startDate, 1)) {
+  for (let date = startDate; date <= endDate; date = addDays(date, 1)) {
     // dayOfWeek of that particular day
     const dayOfWeek = format(date, "EEEE").toUpperCase();
 

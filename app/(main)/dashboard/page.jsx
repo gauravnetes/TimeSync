@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useUser } from '@clerk/nextjs'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { usernameSchema } from '@/_lib/validators';
@@ -20,6 +20,12 @@ const page = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm({
     resolver: zodResolver(usernameSchema) // provide the schema inside the zodResolver
   })
+  const [origin, setOrigin] = useState("")
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setOrigin(window.location.origin)
+    }
+  }, [])
 
   useEffect(() => {
     setValue("username", user?.username)
@@ -87,7 +93,7 @@ const page = () => {
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
             <div>
               <div className='flex items-center gap-2'>
-                <span>{window?.location.origin}</span>
+                <span>{origin}</span>
                 <Input {...register("username")} placeholder="username" />
               </div>
 

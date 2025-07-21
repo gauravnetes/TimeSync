@@ -37,7 +37,7 @@ const testimonials = [
     },
 ];
 
-const TestimonialCarousel = () => {
+const Testimonials = () => {
     return (
         <Carousel
             plugins={[
@@ -78,4 +78,4 @@ const TestimonialCarousel = () => {
     )
 }
 
-export default TestimonialCarousel
+export default Testimonials

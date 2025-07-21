@@ -11,11 +11,13 @@ import { usernameSchema } from '@/_lib/validators';
 import useFetch from '@/hooks/use-fetch';
 import { updateUsername } from '@/actions/users';
 import { BarLoader } from 'react-spinners';
+import { getLatestUpdates } from '@/actions/dashboard';
+import { format } from 'date-fns';
 
 const page = () => {
   const { isLoaded, user } = useUser();
   // console.log(user);
-  const { register, handleSubmit, setValue, formState: {errors} } = useForm({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm({
     resolver: zodResolver(usernameSchema) // provide the schema inside the zodResolver
   })
 
@@ -27,16 +29,53 @@ const page = () => {
 
   const onSubmit = async (data) => {
     await fnUpdateUsername(data.username)
-    
+
   }
 
+  const {
+    loading: loadingUpdates,
+    data: upcomingMeetings,
+    fn: fnUpdates,
+  } = useFetch(getLatestUpdates)
+
+  console.log("Upcoming meeting: ", upcomingMeetings)
+
+  useEffect(() => {
+    (async () => await fnUpdates())() // iife -> immediately invoked function execution 
+  }, [])
   return (
     <div className='space-y-8'>
       <Card>
         <CardHeader>
           <CardTitle>Welcome, {user?.firstName} </CardTitle>
         </CardHeader>
-        {/* Latest Updates */}
+
+        <CardContent>
+          {!loadingUpdates ? (
+            <div className='space-y-6 font-light'>
+              <div>
+                {upcomingMeetings && upcomingMeetings?.length > 0 ? (
+                  <ul className='list-disc pl-5'>
+                    {upcomingMeetings.map((meeting) => (
+                      <li key={meeting.id}>
+                        {meeting.event.title} on{" "}
+                        {format(
+                          new Date(meeting.startTime),
+                          "MMM d, yyyy h:mm a"
+                        )}{" "}
+                        with {meeting.name}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No Upcoming Meetings</p>
+                )}
+              </div>
+            </div>
+          ) : (
+            <p>Loading Updates...</p>
+          )}
+        </CardContent>
       </Card>
 
       <Card>
@@ -62,9 +101,9 @@ const page = () => {
                 <p className='text-red-500 text-sm mt-1'>{error.message}</p>
               )}
             </div>
-              {loading && (
-                <BarLoader className='mb-4' width={"100%"} color='#36d7b7' />
-              )}
+            {loading && (
+              <BarLoader className='mb-4' width={"100%"} color='#36d7b7' />
+            )}
             <Button type="submit"> Update Username </Button>
           </form>
         </CardContent>

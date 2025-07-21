@@ -1,14 +1,16 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/header";
+import Header from "@/components/Header";
 import { ClerkProvider } from "@clerk/nextjs";
 import CreateEventDrawer from "@/components/create-event"
+
+const inter = Inter({ subsets: ["latin"] });
+
 export const metadata = {
   title: "TimeSync",
   description: "Scheduling Application",
 };
 
-const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
   return (

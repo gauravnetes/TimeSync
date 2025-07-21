@@ -21,8 +21,8 @@ export async function createBooking(bookingData) {
             throw new Error("Event not Found")
         }
 
-        console.log(event)
-        console.log(event.user.clerkUserId)
+        // console.log(event)
+        // console.log(event.user.clerkUserId)
 
         const user = await clerkClient.users.getUser(event.user.clerkUserId)
         console.log("OAuth identifies: ", user.externalAccounts); 

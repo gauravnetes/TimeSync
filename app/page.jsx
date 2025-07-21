@@ -1,4 +1,4 @@
-import Testimonials from "@/components/testimonials";
+import Testimonials from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Calendar, Clock, LinkIcon } from "lucide-react";
@@ -94,7 +94,7 @@ export default function Home() {
 
       <div className="mb-24">
         <h2 className="text-3xl font-bold text-center mb-12 text-blue-700">What our Users Say</h2>
-        <TestimonialCarousel />
+        <Testimonials />
       </div>
 
       <div className="mb-24">
